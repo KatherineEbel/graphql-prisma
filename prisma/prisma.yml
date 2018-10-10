@@ -1,5 +1,6 @@
 endpoint: http://localhost:4466
-datamodel: datamodel.graphql
+datamodel: datamodel.graphqls
+secret: thisismysupersecrettext
 
 generate:
   - generator: javascript-client

@@ -1,17 +1,19 @@
-import { GraphQLServer, PubSub } from 'graphql-yoga'
-import db from './db'
-import * as resolvers from './resolvers'
-import './prisma'
+import { GraphQLServer } from 'graphql-yoga'
+import prisma from './prisma'
+import { resolvers, fragmentReplacements } from './resolvers'
 
-const pubsub = new PubSub()
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
-  context: {
-    db,
-    pubsub
-  }
+  context(request) {
+    return {
+      prisma,
+      request
+    }
+  },
+  fragmentReplacements
 })
+
 
 server.start()
       .then(() => console.log('The server is up!'))
