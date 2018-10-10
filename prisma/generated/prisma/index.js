@@ -6,6 +6,6 @@ var typeDefs = require("./prisma-schema").typeDefs;
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   endpoint: `${process.env["PRISMA_ENDPOINT"]}`,
-  secret: "thisismysupersecrettext"
+  secret: `${process.env["PRISMA_SECRET"]}`
 });
 exports.prisma = new exports.Prisma();
