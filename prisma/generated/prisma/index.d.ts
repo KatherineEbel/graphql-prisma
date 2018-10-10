@@ -194,20 +194,20 @@ export type PostOrderByInput =
   | "body_DESC"
   | "published_ASC"
   | "published_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type CommentOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "text_ASC"
   | "text_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -218,32 +218,46 @@ export type UserOrderByInput =
   | "email_DESC"
   | "password_ASC"
   | "password_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface CommentCreateWithoutAuthorInput {
-  text: String;
-  post: PostCreateOneWithoutCommentsInput;
+export interface CommentCreateManyWithoutAuthorInput {
+  create?: CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
 }
 
 export type CommentWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
+export interface UserCreateWithoutCommentsInput {
+  name: String;
+  email: String;
+  password: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+}
+
+export interface PostUpdateOneRequiredWithoutCommentsInput {
+  create?: PostCreateWithoutCommentsInput;
+  update?: PostUpdateWithoutCommentsDataInput;
+  upsert?: PostUpsertWithoutCommentsInput;
+  connect?: PostWhereUniqueInput;
+}
+
 export interface PostCreateManyWithoutAuthorInput {
   create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
   connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
 }
 
-export interface PostUpdateWithoutCommentsDataInput {
-  title?: String;
-  body?: String;
-  published?: Boolean;
-  author?: UserUpdateOneRequiredWithoutPostsInput;
+export interface UserUpdateOneRequiredWithoutCommentsInput {
+  create?: UserCreateWithoutCommentsInput;
+  update?: UserUpdateWithoutCommentsDataInput;
+  upsert?: UserUpsertWithoutCommentsInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface PostCreateWithoutAuthorInput {
@@ -253,75 +267,20 @@ export interface PostCreateWithoutAuthorInput {
   comments?: CommentCreateManyWithoutPostInput;
 }
 
-export interface UserUpdateWithoutCommentsDataInput {
-  name?: String;
-  email?: String;
-  password?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
 export interface CommentCreateManyWithoutPostInput {
   create?: CommentCreateWithoutPostInput[] | CommentCreateWithoutPostInput;
   connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-}
-
-export interface PostWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  body?: String;
-  body_not?: String;
-  body_in?: String[] | String;
-  body_not_in?: String[] | String;
-  body_lt?: String;
-  body_lte?: String;
-  body_gt?: String;
-  body_gte?: String;
-  body_contains?: String;
-  body_not_contains?: String;
-  body_starts_with?: String;
-  body_not_starts_with?: String;
-  body_ends_with?: String;
-  body_not_ends_with?: String;
-  published?: Boolean;
-  published_not?: Boolean;
-  author?: UserWhereInput;
-  comments_every?: CommentWhereInput;
-  comments_some?: CommentWhereInput;
-  comments_none?: CommentWhereInput;
-  AND?: PostWhereInput[] | PostWhereInput;
-  OR?: PostWhereInput[] | PostWhereInput;
-  NOT?: PostWhereInput[] | PostWhereInput;
-}
-
-export interface CommentCreateWithoutPostInput {
-  text: String;
-  author: UserCreateOneWithoutCommentsInput;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -335,9 +294,9 @@ export interface PostSubscriptionWhereInput {
   NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
 }
 
-export interface PostCreateOneWithoutCommentsInput {
-  create?: PostCreateWithoutCommentsInput;
-  connect?: PostWhereUniqueInput;
+export interface CommentCreateWithoutPostInput {
+  text: String;
+  author: UserCreateOneWithoutCommentsInput;
 }
 
 export interface UserUpdateInput {
@@ -348,11 +307,9 @@ export interface UserUpdateInput {
   comments?: CommentUpdateManyWithoutAuthorInput;
 }
 
-export interface PostCreateWithoutCommentsInput {
-  title: String;
-  body: String;
-  published: Boolean;
-  author: UserCreateOneWithoutPostsInput;
+export interface PostCreateOneWithoutCommentsInput {
+  create?: PostCreateWithoutCommentsInput;
+  connect?: PostWhereUniqueInput;
 }
 
 export interface PostUpdateInput {
@@ -363,14 +320,27 @@ export interface PostUpdateInput {
   comments?: CommentUpdateManyWithoutPostInput;
 }
 
+export interface PostCreateWithoutCommentsInput {
+  title: String;
+  body: String;
+  published: Boolean;
+  author: UserCreateOneWithoutPostsInput;
+}
+
+export interface PostUpsertWithoutCommentsInput {
+  update: PostUpdateWithoutCommentsDataInput;
+  create: PostCreateWithoutCommentsInput;
+}
+
 export interface UserCreateOneWithoutPostsInput {
   create?: UserCreateWithoutPostsInput;
   connect?: UserWhereUniqueInput;
 }
 
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput;
+  create: UserCreateWithoutPostsInput;
+}
 
 export interface UserCreateWithoutPostsInput {
   name: String;
@@ -379,26 +349,16 @@ export interface UserCreateWithoutPostsInput {
   comments?: CommentCreateManyWithoutAuthorInput;
 }
 
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput;
-  create: UserCreateWithoutPostsInput;
+export interface CommentUpdateWithoutAuthorDataInput {
+  text?: String;
+  post?: PostUpdateOneRequiredWithoutCommentsInput;
 }
 
-export interface CommentCreateManyWithoutAuthorInput {
-  create?: CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput;
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface UserUpdateOneRequiredWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  update?: UserUpdateWithoutPostsDataInput;
-  upsert?: UserUpsertWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
+export interface PostUpdateWithoutCommentsDataInput {
+  title?: String;
+  body?: String;
+  published?: Boolean;
+  author?: UserUpdateOneRequiredWithoutPostsInput;
 }
 
 export interface CommentUpdateWithWhereUniqueWithoutAuthorInput {
@@ -406,10 +366,9 @@ export interface CommentUpdateWithWhereUniqueWithoutAuthorInput {
   data: CommentUpdateWithoutAuthorDataInput;
 }
 
-export interface CommentUpdateInput {
-  text?: String;
-  author?: UserUpdateOneRequiredWithoutCommentsInput;
-  post?: PostUpdateOneRequiredWithoutCommentsInput;
+export interface CommentCreateWithoutAuthorInput {
+  text: String;
+  post: PostCreateOneWithoutCommentsInput;
 }
 
 export interface UserUpdateWithoutPostsDataInput {
@@ -419,17 +378,15 @@ export interface UserUpdateWithoutPostsDataInput {
   comments?: CommentUpdateManyWithoutAuthorInput;
 }
 
-export interface UserUpdateOneRequiredWithoutCommentsInput {
-  create?: UserCreateWithoutCommentsInput;
-  update?: UserUpdateWithoutCommentsDataInput;
-  upsert?: UserUpsertWithoutCommentsInput;
-  connect?: UserWhereUniqueInput;
+export interface CommentUpdateInput {
+  text?: String;
+  author?: UserUpdateOneRequiredWithoutCommentsInput;
+  post?: PostUpdateOneRequiredWithoutCommentsInput;
 }
 
-export interface CommentCreateInput {
-  text: String;
-  author: UserCreateOneWithoutCommentsInput;
-  post: PostCreateOneWithoutCommentsInput;
+export interface UserCreateOneWithoutCommentsInput {
+  create?: UserCreateWithoutCommentsInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface UserWhereInput {
@@ -495,16 +452,110 @@ export interface UserWhereInput {
   comments_every?: CommentWhereInput;
   comments_some?: CommentWhereInput;
   comments_none?: CommentWhereInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface UserCreateWithoutCommentsInput {
+export interface PostWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  body?: String;
+  body_not?: String;
+  body_in?: String[] | String;
+  body_not_in?: String[] | String;
+  body_lt?: String;
+  body_lte?: String;
+  body_gt?: String;
+  body_gte?: String;
+  body_contains?: String;
+  body_not_contains?: String;
+  body_starts_with?: String;
+  body_not_starts_with?: String;
+  body_ends_with?: String;
+  body_not_ends_with?: String;
+  published?: Boolean;
+  published_not?: Boolean;
+  author?: UserWhereInput;
+  comments_every?: CommentWhereInput;
+  comments_some?: CommentWhereInput;
+  comments_none?: CommentWhereInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: PostWhereInput[] | PostWhereInput;
+  OR?: PostWhereInput[] | PostWhereInput;
+  NOT?: PostWhereInput[] | PostWhereInput;
+}
+
+export interface UserUpdateWithoutCommentsDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+}
+
+export interface UserCreateInput {
   name: String;
   email: String;
   password: String;
   posts?: PostCreateManyWithoutAuthorInput;
+  comments?: CommentCreateManyWithoutAuthorInput;
 }
 
 export interface PostUpdateManyWithoutAuthorInput {
@@ -520,29 +571,19 @@ export interface PostUpdateManyWithoutAuthorInput {
     | PostUpsertWithWhereUniqueWithoutAuthorInput;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
   where: PostWhereUniqueInput;
   data: PostUpdateWithoutAuthorDataInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-  email: String;
-  password: String;
-  posts?: PostCreateManyWithoutAuthorInput;
-  comments?: CommentCreateManyWithoutAuthorInput;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
 
 export interface PostUpdateWithoutAuthorDataInput {
   title?: String;
@@ -551,9 +592,11 @@ export interface PostUpdateWithoutAuthorDataInput {
   comments?: CommentUpdateManyWithoutPostInput;
 }
 
-export interface PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput;
-  create: PostCreateWithoutCommentsInput;
+export interface UserUpdateOneRequiredWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  update?: UserUpdateWithoutPostsDataInput;
+  upsert?: UserUpsertWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface CommentUpdateManyWithoutPostInput {
@@ -567,16 +610,6 @@ export interface CommentUpdateManyWithoutPostInput {
   upsert?:
     | CommentUpsertWithWhereUniqueWithoutPostInput[]
     | CommentUpsertWithWhereUniqueWithoutPostInput;
-}
-
-export interface CommentUpdateWithoutAuthorDataInput {
-  text?: String;
-  post?: PostUpdateOneRequiredWithoutCommentsInput;
-}
-
-export interface CommentUpdateWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput;
-  data: CommentUpdateWithoutPostDataInput;
 }
 
 export interface CommentWhereInput {
@@ -610,14 +643,30 @@ export interface CommentWhereInput {
   text_not_ends_with?: String;
   author?: UserWhereInput;
   post?: PostWhereInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   AND?: CommentWhereInput[] | CommentWhereInput;
   OR?: CommentWhereInput[] | CommentWhereInput;
   NOT?: CommentWhereInput[] | CommentWhereInput;
 }
 
-export interface CommentUpdateWithoutPostDataInput {
-  text?: String;
-  author?: UserUpdateOneRequiredWithoutCommentsInput;
+export interface CommentUpdateWithWhereUniqueWithoutPostInput {
+  where: CommentWhereUniqueInput;
+  data: CommentUpdateWithoutPostDataInput;
 }
 
 export interface PostCreateInput {
@@ -626,13 +675,6 @@ export interface PostCreateInput {
   published: Boolean;
   author: UserCreateOneWithoutPostsInput;
   comments?: CommentCreateManyWithoutPostInput;
-}
-
-export interface PostUpdateOneRequiredWithoutCommentsInput {
-  create?: PostCreateWithoutCommentsInput;
-  update?: PostUpdateWithoutCommentsDataInput;
-  upsert?: PostUpsertWithoutCommentsInput;
-  connect?: PostWhereUniqueInput;
 }
 
 export interface UserUpsertWithoutCommentsInput {
@@ -652,6 +694,11 @@ export interface CommentUpsertWithWhereUniqueWithoutPostInput {
   create: CommentCreateWithoutPostInput;
 }
 
+export interface CommentUpdateWithoutPostDataInput {
+  text?: String;
+  author?: UserUpdateOneRequiredWithoutCommentsInput;
+}
+
 export interface CommentUpsertWithWhereUniqueWithoutAuthorInput {
   where: CommentWhereUniqueInput;
   update: CommentUpdateWithoutAuthorDataInput;
@@ -669,9 +716,10 @@ export interface CommentSubscriptionWhereInput {
   NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
 }
 
-export interface UserCreateOneWithoutCommentsInput {
-  create?: UserCreateWithoutCommentsInput;
-  connect?: UserWhereUniqueInput;
+export interface CommentCreateInput {
+  text: String;
+  author: UserCreateOneWithoutCommentsInput;
+  post: PostCreateOneWithoutCommentsInput;
 }
 
 export interface CommentUpdateManyWithoutAuthorInput {
@@ -696,6 +744,8 @@ export interface UserPreviousValuesNode {
   name: String;
   email: String;
   password: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface UserPreviousValues
@@ -705,6 +755,8 @@ export interface UserPreviousValues
   name: () => Promise<String>;
   email: () => Promise<String>;
   password: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -714,22 +766,39 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface AggregateCommentNode {
-  count: Int;
+export interface PostPreviousValuesNode {
+  id: ID_Output;
+  title: String;
+  body: String;
+  published: Boolean;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
-export interface AggregateComment
-  extends Promise<AggregateCommentNode>,
+export interface PostPreviousValues
+  extends Promise<PostPreviousValuesNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  body: () => Promise<String>;
+  published: () => Promise<Boolean>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
-export interface AggregateCommentSubscription
-  extends Promise<AsyncIterator<AggregateCommentNode>>,
+export interface PostPreviousValuesSubscription
+  extends Promise<AsyncIterator<PostPreviousValuesNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  body: () => Promise<AsyncIterator<String>>;
+  published: () => Promise<AsyncIterator<Boolean>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface PostSubscriptionPayloadNode {
@@ -867,6 +936,8 @@ export interface UserNode {
   name: String;
   email: String;
   password: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface User extends Promise<UserNode>, Fragmentable {
@@ -896,6 +967,8 @@ export interface User extends Promise<UserNode>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserSubscription
@@ -927,6 +1000,8 @@ export interface UserSubscription
       last?: Int;
     }
   ) => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface PostConnectionNode {}
@@ -947,81 +1022,25 @@ export interface PostConnectionSubscription
   aggregate: <T = AggregatePostSubscription>() => T;
 }
 
-export interface PostPreviousValuesNode {
-  id: ID_Output;
-  title: String;
-  body: String;
-  published: Boolean;
+export interface BatchPayloadNode {
+  count: Long;
 }
 
-export interface PostPreviousValues
-  extends Promise<PostPreviousValuesNode>,
+export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayloadNode>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  body: () => Promise<String>;
-  published: () => Promise<Boolean>;
-}
-
-export interface PostPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostPreviousValuesNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  body: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface PostNode {
-  id: ID_Output;
-  title: String;
-  body: String;
-  published: Boolean;
-}
-
-export interface Post extends Promise<PostNode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  body: () => Promise<String>;
-  published: () => Promise<Boolean>;
-  author: <T = User>() => T;
-  comments: <T = Promise<Array<CommentNode>>>(
-    args?: {
-      where?: CommentWhereInput;
-      orderBy?: CommentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface PostSubscription
-  extends Promise<AsyncIterator<PostNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  body: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  author: <T = UserSubscription>() => T;
-  comments: <T = Promise<AsyncIterator<Array<CommentSubscription>>>>(
-    args?: {
-      where?: CommentWhereInput;
-      orderBy?: CommentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface CommentPreviousValuesNode {
   id: ID_Output;
   text: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface CommentPreviousValues
@@ -1029,6 +1048,8 @@ export interface CommentPreviousValues
     Fragmentable {
   id: () => Promise<ID_Output>;
   text: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentPreviousValuesSubscription
@@ -1036,6 +1057,8 @@ export interface CommentPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   text: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CommentSubscriptionPayloadNode {
@@ -1064,6 +1087,8 @@ export interface CommentSubscriptionPayloadSubscription
 export interface CommentNode {
   id: ID_Output;
   text: String;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface Comment extends Promise<CommentNode>, Fragmentable {
@@ -1071,6 +1096,8 @@ export interface Comment extends Promise<CommentNode>, Fragmentable {
   text: () => Promise<String>;
   author: <T = User>() => T;
   post: <T = Post>() => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentSubscription
@@ -1080,6 +1107,61 @@ export interface CommentSubscription
   text: () => Promise<AsyncIterator<String>>;
   author: <T = UserSubscription>() => T;
   post: <T = PostSubscription>() => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PostNode {
+  id: ID_Output;
+  title: String;
+  body: String;
+  published: Boolean;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
+}
+
+export interface Post extends Promise<PostNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  body: () => Promise<String>;
+  published: () => Promise<Boolean>;
+  author: <T = User>() => T;
+  comments: <T = Promise<Array<CommentNode>>>(
+    args?: {
+      where?: CommentWhereInput;
+      orderBy?: CommentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PostSubscription
+  extends Promise<AsyncIterator<PostNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  body: () => Promise<AsyncIterator<String>>;
+  published: () => Promise<AsyncIterator<Boolean>>;
+  author: <T = UserSubscription>() => T;
+  comments: <T = Promise<AsyncIterator<Array<CommentSubscription>>>>(
+    args?: {
+      where?: CommentWhereInput;
+      orderBy?: CommentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserEdgeNode {
@@ -1098,18 +1180,20 @@ export interface UserEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BatchPayloadNode {
-  count: Long;
+export interface AggregateCommentNode {
+  count: Int;
 }
 
-export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayloadNode>>,
+export interface AggregateComment
+  extends Promise<AggregateCommentNode>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCommentSubscription
+  extends Promise<AsyncIterator<AggregateCommentNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PostEdgeNode {
@@ -1168,11 +1252,21 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
+export type Long = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
-
-export type Long = string;
 
 /**
  * Type Defs
